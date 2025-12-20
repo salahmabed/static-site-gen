@@ -1,16 +1,35 @@
 import unittest
 
-from htmlnode import HTMLNode
+from textnode import TextNode, TextType
 
 
 class TestTextNode(unittest.TestCase):
     def test_eq(self):
-        node1 = HTMLNode("a","text inside a paragraph", None, {"href": "https://www.google.com"})
-        node2 = HTMLNode()
-        node3 = HTMLNode("p","more text inside a paragraph")
-        print(node1)
-        print(node2)
-        print(node3)
+        node = TextNode("This is a text node", TextType.TEXT)
+        node2 = TextNode("This is a text node", TextType.TEXT)
+        self.assertEqual(node, node2)
+
+    def test_eq_false(self):
+        node = TextNode("This is a text node", TextType.TEXT)
+        node2 = TextNode("This is a text node", TextType.BOLD)
+        self.assertNotEqual(node, node2)
+
+    def test_eq_false2(self):
+        node = TextNode("This is a text node", TextType.TEXT)
+        node2 = TextNode("This is a text node2", TextType.TEXT)
+        self.assertNotEqual(node, node2)
+
+    def test_eq_url(self):
+        node = TextNode("This is a text node", TextType.ITALIC, "https://www.boot.dev")
+        node2 = TextNode("This is a text node", TextType.ITALIC, "https://www.boot.dev")
+        self.assertEqual(node, node2)
+
+    def test_repr(self):
+        node = TextNode("This is a text node", TextType.TEXT, "https://www.boot.dev")
+        self.assertEqual(
+            "TextNode(This is a text node, text, https://www.boot.dev)", repr(node)
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
